@@ -9,6 +9,7 @@ import { QuizCard } from '../../components/QuizCard';
 
 import { styles } from './styles';
 import { QUIZZES } from '../../data/quizzes';
+import Animated, { SlideInLeft, SlideInRight, SlideOutLeft, SlideOutRight } from 'react-native-reanimated';
 
 export function Home() {
   const [quizzes, setQuizzes] = useState(QUIZZES);
@@ -50,11 +51,16 @@ export function Home() {
       <FlatList
         data={quizzes}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <QuizCard
-            data={item}
-            onPress={() => navigate('quiz', { id: item.id })}
-          />
+        renderItem={({ item, index }) => (
+          <Animated.View
+            entering={index % 2 === 0 ? SlideInLeft.delay(index * 100).duration(200) : SlideInRight.delay(index * 100).duration(200)}
+            exiting={index % 2 === 0 ? SlideOutLeft.duration(100) : SlideOutRight.duration(100)}
+          >
+            <QuizCard
+              data={item}
+              onPress={() => navigate('quiz', { id: item.id })}
+            />
+          </Animated.View>
         )}
         numColumns={2}
         showsVerticalScrollIndicator={false}

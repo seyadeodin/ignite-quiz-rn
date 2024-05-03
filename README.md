@@ -8,3 +8,5 @@
   - Needs to be applied to an aimated component
 - Animated.Component
   - Component where the animated style applied
+- Interpolate
+  - CAn crfeate very complex movement

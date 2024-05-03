@@ -9,6 +9,12 @@ import { HistoryCard, HistoryProps } from '../../components/HistoryCard';
 import { styles } from './styles';
 import { historyGetAll, historyRemove } from '../../storage/quizHistoryStorage';
 import { Loading } from '../../components/Loading';
+import Animated, { LightSpeedOutRight, SequencedTransition, } from 'react-native-reanimated';
+
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)
+
+
+const transition = SequencedTransition.duration(1000)
 
 export function History() {
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +57,7 @@ export function History() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <Header
         title="Histórico"
         subtitle={`Seu histórico de estudos${'\n'}realizados`}
@@ -65,12 +71,14 @@ export function History() {
       >
         {
           history.map((item) => (
-            <TouchableOpacity
+            <AnimatedTouchableOpacity
+              layout={transition}
+              exiting={LightSpeedOutRight}
               key={item.id}
               onPress={() => handleRemove(item.id)}
             >
               <HistoryCard data={item} />
-            </TouchableOpacity>
+            </AnimatedTouchableOpacity>
           ))
         }
       </ScrollView>

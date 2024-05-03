@@ -26,6 +26,7 @@ export function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [quiz, setQuiz] = useState<QuizProps>({} as QuizProps);
   const [alternativeSelected, setAlternativeSelected] = useState<null | number>(null);
+  const [isWrongQuestion, setIsWrongQuestion] = useState(0)
 
   const { navigate } = useNavigation();
 
@@ -68,7 +69,12 @@ export function Quiz() {
     }
 
     if (quiz.questions[currentQuestion].correct === alternativeSelected) {
+      setIsWrongQuestion(0);
       setPoints(prevState => prevState + 1);
+    }
+
+    if (quiz.questions[currentQuestion].correct !== alternativeSelected) {
+      setIsWrongQuestion(prev => prev + 1);
     }
 
     setAlternativeSelected(null);
@@ -123,6 +129,7 @@ export function Quiz() {
           question={quiz.questions[currentQuestion]}
           alternativeSelected={alternativeSelected}
           setAlternativeSelected={setAlternativeSelected}
+          isWrongQuestion={isWrongQuestion}
         />
 
         <View style={styles.footer}>
